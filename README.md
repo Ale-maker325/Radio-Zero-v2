@@ -1,39 +1,41 @@
-<div align="center" markdown="1">
+# 📡 ESP32S3 Zero + SX1278 (433MHz) LoRa Board
 
-<img src=".github/meshtastic_logo.png" alt="Meshtastic Logo" width="80"/>
-<h1>Meshtastic Firmware</h1>
+Плата на базе ESP32S3 Zero и LoRa-модуля E32-400M33S (SX1278), разработанная для интеграции с [Meshtastic](https://github.com/Ale-maker325/ESP32_S3_33_433MHz_SX1278/wiki/Meshtastic) и ExpressLRS. Поддерживает передачу данных по технологии LoRa, подходит для создания mesh-сетей, телеметрии и экспериментов с беспроводной связью.
 
-![GitHub release downloads](https://img.shields.io/github/downloads/meshtastic/firmware/total)
-[![CI](https://img.shields.io/github/actions/workflow/status/meshtastic/firmware/main_matrix.yml?branch=master&label=actions&logo=github&color=yellow)](https://github.com/meshtastic/firmware/actions/workflows/ci.yml)
-[![CLA assistant](https://cla-assistant.io/readme/badge/meshtastic/firmware)](https://cla-assistant.io/meshtastic/firmware)
-[![Fiscal Contributors](https://opencollective.com/meshtastic/tiers/badge.svg?label=Fiscal%20Contributors&color=deeppink)](https://opencollective.com/meshtastic/)
-[![Vercel](https://img.shields.io/static/v1?label=Powered%20by&message=Vercel&style=flat&logo=vercel&color=000000)](https://vercel.com?utm_source=meshtastic&utm_campaign=oss)
+## 🔗 Документация и примеры
 
-<a href="https://trendshift.io/repositories/5524" target="_blank"><img src="https://trendshift.io/api/badge/repositories/5524" alt="meshtastic%2Ffirmware | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+📚 Документация по плате доступна в [Wiki](https://github.com/Ale-maker325/ESP32_S3_33_433MHz_SX1278/wiki)
 
-</div>
+📚 При добавлении проекта в VSCode убедитесь, что в файле **platformio.ini** раскомментирован вариант оборудования **default_envs = ESP32S3_E32_M33S**,
+тогда пример можно собирать для этой платы по-умолчанию
+📚 Пример **ESP32S3_E32_TEST** - вам не нужен - это общий тест работоспособности платы
 
-</div>
+## 🚀 Возможности платы
 
-<div align="center">
-	<a href="https://meshtastic.org">Website</a>
-	-
-	<a href="https://meshtastic.org/docs/">Documentation</a>
-</div>
+- ✅ Контроллер ESP32S3
+- ✅ LoRa-модуль SX1278 (433MHz 2W)
+- ✅ Совместимость с Meshtastic
+- ✅ Совместимость с ExpressLRS
+- ✅ Пример передачи данных по LoRa
 
-## Overview
+## 📷 Фото устройства
 
-This repository contains the official device firmware for Meshtastic, an open-source LoRa mesh networking project designed for long-range, low-power communication without relying on internet or cellular infrastructure. The firmware supports various hardware platforms, including ESP32, nRF52, RP2040/RP2350, and Linux-based devices.
+<img src="https://raw.githubusercontent.com/Ale-maker325/ESP32_S3_33_433MHz_SX1278/master/FOTO/1742917684166.jpg" width="500"/>
 
-Meshtastic enables text messaging, location sharing, and telemetry over a decentralized mesh network, making it ideal for outdoor adventures, emergency preparedness, and remote operations.
+📡 **Meshtastic** - в папке  находятся файлы, необходимые для добавления платы в проект Meshtastic. Подробнее — см. [Meshtastic](https://github.com/Ale-maker325/ESP32_S3_33_433MHz_SX1278/wiki/Meshtastic)
 
-### Get Started
+🧪 Пример LoRa В папке  находится пример передачи данных по LoRa. Подходит для тестирования связи между двумя платами.
 
-- 🔧 **[Building Instructions](https://meshtastic.org/docs/development/firmware/build)** – Learn how to compile the firmware from source.
-- ⚡ **[Flashing Instructions](https://meshtastic.org/docs/getting-started/flashing-firmware/)** – Install or update the firmware on your device.
 
-Join our community and help improve Meshtastic! 🚀
 
-## Stats
+## 🧩 Совместимость
 
-![Alt](https://repobeats.axiom.co/api/embed/8025e56c482ec63541593cc5bd322c19d5c0bdcf.svg "Repobeats analytics image")
+- ✅ Meshtastic
+- ✅ ExpressLRS
+- ✅ LoRa-примеры
+- ✅ PlatformIO
+
+## 📄 Лицензия
+Проект распространяется под лицензией MIT — свободное использование, модификация и распространение.
+---
+
