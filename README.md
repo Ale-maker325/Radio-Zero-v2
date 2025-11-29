@@ -17,7 +17,7 @@
 
 ## 📷 Фото устройства
 
-<img src="https://raw.githubusercontent.com/Ale-maker325/Radio-Zero-v2/master/FOTO/Pinout_2.jpg" width="500"/>
+<img src="https://raw.githubusercontent.com/Ale-maker325/Radio-Zero-v2/master/FOTO/Pinout_2.jpg" width="100%"/>
 
 📡 **Meshtastic** - в папке  находятся файлы, необходимые для добавления платы в проект Meshtastic. Подробнее — см. [Meshtastic](https://github.com/Ale-maker325/Radio-Zero-v2/wiki/Meshtastic)
 
