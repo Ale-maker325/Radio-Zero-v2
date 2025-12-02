@@ -1,18 +1,126 @@
 #include <Arduino.h>
+#include <settings.h>
+#include <rgb_led.h>
+#include <radioLR.h>
+#include <display.h>
 
-// put function declarations here:
-int myFunction(int, int);
+
+
+uint64_t count = 0;           //Счётчик для сохранения количества отправленных/полученных пакетов
+boolean FUN_IS_ON = false;    //Логический флаг включения/отключения вентилятора охлаждения
+
+
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    #ifdef DEBUG_PRINT
+        Serial.begin(115200);
+        Serial.println(" ");
+        Serial.println(F("*************************  Serial ready 115200 *******************************"));
+        Serial.println(" ");
+    #endif
+
+    SPI_MODEM.begin(SCK, MISO, MOSI);
+    display_wire.begin(I2C_SDA, I2C_SCL, 100000);
+
+    
+
+    #ifdef DEBUG_PRINT
+        Serial.println(" ");
+        Serial.print("Chip Model = ");
+        Serial.println(ESP.getChipModel());
+        Serial.print("Cpu Freq = ");
+        Serial.println(ESP.getCpuFreqMHz());
+        Serial.print("ChipRevision = ");
+        Serial.println(ESP.getChipRevision());
+        Serial.print("SDK Version = ");
+        Serial.println(ESP.getSdkVersion());
+        Serial.println(" ");
+    #endif
+
+    #ifdef DEBUG_PRINT
+        Serial.print(TABLE_LEFT);
+        Serial.print(F("DISPLAY INIT"));
+        Serial.println(TABLE_RIGHT);
+        Serial.println(SPACE);
+    #endif
+
+    //инициализируем дисплей
+    displayInit();
+
+    pinMode(FUN, OUTPUT);                   //Контакт управления вентилятором охлаждения
+    
+
+
+    WriteColorPixel(COLORS_RGB_LED::red);   //Зажигаем красный цвет
+
+    setRadioMode();
+
+    radio1.setRfSwitchPins(RXEN, TXEN);         //Назначаем контакты для управлением вкл./выкл. усилителем передатчика
+    
+
+    //Устанавливаем функцию, которая будет вызываться при отправке пакета данных
+    radio1.setPacketSentAction(flag_operationDone_1);
+
+    radioBeginAll();
+
+    #ifdef DEBUG_PRINT
+        Serial.println(SPACE);
+    #endif
+
+    //Устанавливаем наши значения, определённые ранее в структуре config_radio1
+    radio_setSettings(radio1, config_radio1, "1");
+
+    #ifdef TRANSMITTER   //Если определена работа модуля как передатчика
+        
+
+        //Начинаем передачу пакетов
+        Serial.println(F("Sending first packet ... "));
+
+        String str = F("START!");
+        
+        transmit_and_print_data(str);
+        WriteColorPixel(COLORS_RGB_LED::green);
+
+        // и вентилятор охлаждения не включен, то включаем вентилятор охлаждения
+        if(config_radio1.outputPower > 1 && FUN_IS_ON != true)
+        {
+            //отмечаем вентилятор как включенный
+            FUN_IS_ON = true;
+            //и включаем его
+            digitalWrite(FUN, HIGH);
+        }
+
+    #endif
+    
+
 }
+
+
+
+
+
 
 void loop() {
-  // put your main code here, to run repeatedly:
+    delay(150);
+    WriteColorPixel(COLORS_RGB_LED::black);
+    
+    #ifdef TRANSMITTER   //Если определен как передатчик проверяем, была ли предыдущая передача успешной
+        
+        // if(operationDone_1) {
+            #ifdef DEBUG_PRINT
+                Serial.println("..................................................");
+            #endif
+            //Сбрасываем сработавший флаг прерывания
+            operationDone_1 = false;
+
+            //готовим строку для отправки
+            String str = "#" + String(count++);
+            transmit_and_print_data(str);
+            WriteColorPixel(COLORS_RGB_LED::green);
+            
+        // }
+
+    #endif
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
