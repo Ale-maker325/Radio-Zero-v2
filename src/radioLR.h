@@ -13,7 +13,24 @@
 int state_1 = RADIOLIB_ERR_NONE; // Переменная, хранящая код состояния передачи/приёма
 
 SPIClass SPI_MODEM;
-SX1278 radio1 = new Module(NSS, DIO1, NRST, BUSY, SPI_MODEM); //Инициализируем экземпляр радио_1
+
+#define E32_400M30S_MODEM //Используем радиомодем E32-400M30S с SX1268
+//#define E22_400M30S_MODEM //Используем радиомодем E22-400M30S с SX1268
+
+
+
+
+
+#ifdef E32_400M30S_MODEM
+  #include <modules/SX126x/SX1268.h>
+  SX1278 radio1 = new Module(NSS, DIO1, NRST, BUSY, SPI_MODEM); //Инициализируем экземпляр радио_1
+  #define TYPE_RADIO SX1278
+#endif
+#ifdef E22_400M30S_MODEM
+  #include <modules/SX126x/SX1268.h>
+  SX1268 radio1 = new Module(NSS, DIO1, NRST, BUSY, SPI_MODEM); //Инициализируем экземпляр радио_1
+  #define TYPE_RADIO SX1268
+#endif
 
 
 //************************************** Строки для формирования вывода информации ***************************************************** */
@@ -122,31 +139,6 @@ enum
 };
  
 
-
-
-//typedef uint8_t Radio_Number;
-
-// enum Radio_Number
-// {
-//     Radio_NONE,    
-//     Radio_1,     
-//     Radio_2,     
-//     Radio_All,   
-// };
-
-
-// enum MODE_RF
-// {
-//   TRANSMITTER_PICO_KIT,
-//   RECEIVER_PICO_KIT,
-//   TRANSMITTER_D32,
-//   RECEIVER_D32,
-
-// };
-
-
-
-//------------------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -304,7 +296,7 @@ void radioBeginAll()
 * @param radio - экземпляр класса передатчика
 * @param config - экземпляр структуры для настройки модуля
 */
-void radio_setSettings(SX1278 radio, LORA_CONFIGURATION config_radio, String radio_name)
+void radio_setSettings(TYPE_RADIO radio, LORA_CONFIGURATION config_radio, String radio_name)
 {
   #ifdef DEBUG_PRINT
     Serial.print(TABLE_LEFT);
