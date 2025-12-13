@@ -1,6 +1,6 @@
 //*************************************************  RGB NEOPIXEL   ****************************************************/
 // Board has RGB LED 21
-#define ENABLE_AMBIENTLIGHTING
+//#define ENABLE_AMBIENTLIGHTING
 #define HAS_NEOPIXEL                         // Enable the use of neopixels
 #define NEOPIXEL_COUNT 1                     // How many neopixels are connected
 #define NEOPIXEL_DATA 21                     // gpio pin used to send data to the neopixels
@@ -10,7 +10,7 @@
 
 //*************************************************   OLED   ****************************************************/
 // Дисплей OLED
-// #define HAS_SCREEN 1
+#define HAS_SCREEN 1
 // #define USE_SH1106 1
 #define USE_SSD1306
 #define I2C_SCL 5
@@ -25,12 +25,13 @@
 //*************************************************  END I2C2  ***************************************************/
 
 //*************************************************   GPS   ******************************************************/
-/*
-  No GPS - but free pins are available.
-*/
-//#define HAS_GPS 0
-//#undef GPS_RX_PIN
-//#undef GPS_TX_PIN
+// GPS
+// FIXME: unsure what to define HAS_GPS as if GPS isn't always present
+// #define HAS_GPS 1 // Don't need to set this to 0 to prevent a crash as it doesn't crash if GPS not found, will probe by default
+// #define PIN_GPS_EN 00000
+// #define GPS_EN_ACTIVE 00000
+// #define GPS_TX_PIN 00000
+// #define GPS_RX_PIN 00000
 //*************************************************  END GPS  *****************************************************/
 
 
@@ -50,7 +51,6 @@
 //*************************************************   END UART   ****************************************************/
 
 
-
 //***************************************************   FAN    ******************************************************/
 //#define RF95_FAN_EN 17 // Пін для керування вентилятором якщо буде це потрібно. Теоретично достатньо радіатора,
                         // або навіть можна обійтись і без радіатора, якщо не буде суттєвого нагріву модема, бо 
@@ -58,33 +58,27 @@
 //*************************************************   END FAN   *****************************************************/
 
 
+//*************************************************   Піни для інтерфейсу радіомодема    ******************************************************/
 
-//*************************************************   SPI    ******************************************************/
-//Піни, які приєднані до модема SX127x
-#define LORA_CS 13
-#define LORA_DIO1 10
-#define LORA_RESET 12
-#define LORA_DIO0 11
-#define LORA_TXEN 2
-#define LORA_RXEN 1
+#define USE_SX1262 // E22-900M30S використовує SX1262
+#define USE_SX1268 // E22-400M30S використовує SX1268
 
-// Піни для SPI інтерфейсу радіомодема
-#define LORA_MISO 9
-#define LORA_MOSI 8
+#define SX126X_CS 13    // Пін NSS (CS) модема SX126x
 #define LORA_SCK 7
+#define LORA_MOSI 8
+#define LORA_MISO 9
+#define SX126X_RESET 12
+#define SX126X_BUSY 11
+#define SX126X_DIO1 10
 
+#define SX126X_TXEN 2
+#define SX126X_RXEN 1
 
-//Тип радіомодема
-#define USE_RF95
+// #define SX126X_DIO2_AS_RF_SWITCH
+#define SX126X_DIO3_TCXO_VOLTAGE 1.8
 
-//Піни для управління завданим радіомодемом
-#define RF95_CS LORA_CS
-#define RF95_IRQ LORA_DIO0
-#define RF95_DIO1 LORA_DIO1
-#define RF95_TXEN LORA_TXEN
-#define RF95_RXEN LORA_RXEN
-#define RF95_RESET LORA_RESET
-#define RF95_MAX_POWER 20
+#define LORA_CS SX126X_CS
+#define LORA_DIO1 SX126X_DIO1
 
-
-//*************************************************  END SPI   *****************************************************/
+#define SX126X_MAX_POWER 22 // Максимальна потужність передавача
+//*************************************************  END Піни для інтерфейсу радіомодема   *****************************************************/
