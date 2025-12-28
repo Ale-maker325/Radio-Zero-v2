@@ -22,6 +22,9 @@
  //#define RECEIVER                //раскомментировать, если модуль будет использоваться как простой приёмник
 
 
+ #define TCA8418_KEYBOARD   //раскомментировать, если используется клавиатура TCA8418
+
+
 
 //**************************************************** Параметры радио для компиляции ************************************************
 
@@ -31,7 +34,7 @@
 #define RADIO_1_SPREAD_FACTOR 9
 #define RADIO_1_CODING_RATE 7
 #define RADIO_1_SYNC_WORD RADIOLIB_LR11X0_LORA_SYNC_WORD_PRIVATE
-#define RADIO_1_OUTPUT_POWER 13
+#define RADIO_1_OUTPUT_POWER 5
 #define RADIO_1_CURRENT_LIMIT 320
 #define RADIO_1_PREAMBLE_LENGTH 8
 #define RADIO_1_GAIN 0
@@ -52,6 +55,10 @@
 
 #define I2C_SDA 3
 #define I2C_SCL 5
+
+// Пины второй шины (Клавиатура и периферия)
+#define I2C_SDA_2 38
+#define I2C_SCL_2 39
 
 //########### конец пинов дисплея ##################
 

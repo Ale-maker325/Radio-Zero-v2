@@ -19,11 +19,6 @@ TwoWire display_wire = TwoWire(0);
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &display_wire, OLED_RESET); //Создаём объект дисплея
 
 
-
-
-
-
-
 /**
 * @brief Функция инициализации дисплея 
 * 
@@ -65,16 +60,6 @@ void displayInit()
 
 
 
-
-
-
-
-
-
-
-
-
-
 #ifdef DEBUG_PRINT
 
 /**
@@ -100,12 +85,6 @@ void (*print_to_terminal)(String &RadioName, String state) = print_to_terminal_r
 #endif
 
 
-
-
-
-
-
-
 /**
  * @brief Функция для вывода на экран дисплея состояния
  * работы текущего радио
@@ -122,9 +101,6 @@ void displayPrintState(int16_t x, int16_t y, String &RadioName, String state)
   display.print(str);
   display.display();
 }
-
-
-
 
 
 
@@ -196,12 +172,6 @@ void printStateResultTX(int &state, String &transmit_str, Radio_Number radioNumb
 
 
 
-
-
-
-
-
-
 /**
  * @brief Функция, которая обеспечивает вывод текущего состояния 
  * приёмопередатчика в сериал-порт (если он задан) и на дисплей
@@ -243,10 +213,6 @@ void printStateResult_RX(int &state, String &read_str, Radio_Number radioNumber)
       Serial.print(F("Data:\t\t"));
       Serial.println(read_str);
     #endif
-
-    
-
-    
           
   } else {
     //Если были проблемы при передаче, сообщаем об этом
@@ -263,8 +229,6 @@ void printStateResult_RX(int &state, String &read_str, Radio_Number radioNumber)
   }
   
 }
-
-
 
 
 
@@ -294,15 +258,6 @@ void transmit_and_print_data(String &transmit_str)
 
 
 
-
-
-
-
-
-
-
-
-
 /**
 * @brief Функция отправляет данные, выводит на экран информацию об отправке,
 * выводит информацию об отправке в сериал-порт
@@ -322,6 +277,36 @@ void receive_and_print_data(String &receive_str)
 
 
 
+/**
+ * @brief Поддержка украинских букв на OLED. Чтобы вместо странных символов увидеть на экране "Текст: Привіт",
+ * стандартного шрифта недостаточно. Самый простой способ без тяжелых библиотек — использовать
+ * конвертер UTF-8 в CP1251 (или другую кодировку шрифта). Но есть более современный метод — библиотека U8g2,
+ * но так как вы уже используете Adafruit_SSD1306, давайте добавим "костыль" для кириллицы.
+ * 
+ * @param source 
+ * @return String 
+ */
+String utf8rus(String source) {
+  int i,j,k;
+  String target;
+  unsigned char n;
+  char m[2] = { '0', '\0' };
+  for (i=0; i<source.length(); i++) {
+    n = source[i]; j = (int)n;
+    if (n < 128) { target += source[i]; }
+    else if (n == 208) {
+      n = source[++i];
+      if (n == 129) target += (char)161; // Ё
+      else if (n >= 144 && n <= 191) target += (char)(n + 48);
+    }
+    else if (n == 209) {
+      n = source[++i];
+      if (n == 145) target += (char)177; // ё
+      else if (n >= 128 && n <= 143) target += (char)(n + 112);
+    }
+  }
+  return target;
+}
 
 
 
